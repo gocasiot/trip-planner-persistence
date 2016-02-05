@@ -77,6 +77,18 @@ var daysModule = (function(){
     var newDay = new Day();
     if (days.length === 1) currentDay = newDay;
     newDay.switchTo();
+
+    $.ajax({
+      method: "POST",
+      url: "api/days/",
+      data: {
+        number: newDay.number
+      },
+      success: function(responseData){
+        console.log("A day was added");
+      }
+    })
+
   }
 
   function deleteCurrentDay () {
@@ -95,7 +107,17 @@ var daysModule = (function(){
   var methods = {
 
     load: function(){
-      $(addDay);
+      // $(addDay);
+      $.ajax({
+        method: "GET",
+        url: '/api/days',
+        success: function(responseData){
+          console.log(responseData);
+          responseData.forEach(function(){
+            $(addDay);
+          })
+        }
+      })
     },
 
     addAttraction: function(attractionData){
@@ -120,3 +142,14 @@ var daysModule = (function(){
   return methods;
 
 }());
+
+
+
+//Page will load
+//using AJAX GET request(day.find()) forEach element in that array, execute addDay to draw the button on the DOM
+
+
+
+
+
+
